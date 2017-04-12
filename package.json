@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-react": "^6.24.1",
     "express": "^4.15.2"
   }
 }
