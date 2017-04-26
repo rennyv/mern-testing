@@ -32,6 +32,10 @@ app.post('/api/bugs/', function(req, res){
     });
 });
 
+app.get('*', function(req, res){
+    res.sendFile(__dirname + '/static/index.html');
+})
+
 MongoClient.connect('mongodb://localhost/bugsdb', function(err, dbConnection){
     db = dbConnection;
     var server = app.listen(3000, function() {
