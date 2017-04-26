@@ -58,7 +58,7 @@ var BugList = React.createClass({
         return (
             <div>
                 <h1>Bug Tracker</h1>
-                <BugFilter submitHandler={this.loadData} initFilter={qs} />
+                <BugFilter submitHandler={this.changeFilter} initFilter={qs} />
                 <hr />
                 <BugTable bugs={this.state.bugs} />
                  <hr />
@@ -76,6 +76,11 @@ var BugList = React.createClass({
             this.setState({bugs: data});
         }.bind(this));
         // In production, we'd also handle errors.
+    },
+
+    changeFilter: function(newFilter) {
+        this.props.history.push({search: '?' + queryString.stringify(newFilter)}); 
+        this.loadData(newFilter);
     },
 
     addBug: function(bug) {
