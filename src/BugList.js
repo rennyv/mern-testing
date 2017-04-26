@@ -8,7 +8,7 @@ var BugAdd = require('./BugAdd');
 
 var BugRow = React.createClass({
     render: function() {
-        console.log("Rendering BugRow:", this.props.bug);
+        //console.log("Rendering BugRow:", this.props.bug);
         return (
             <tr>
                 <td>{this.props.bug._id}</td>
@@ -23,7 +23,7 @@ var BugRow = React.createClass({
 
 var BugTable = React.createClass({
     render: function(){
-        console.log("Rendering bug table, num items:", this.props.bugs.length);
+        //console.log("Rendering bug table, num items:", this.props.bugs.length);
         var bugRows = this.props.bugs.map(function(bug) {
             return <BugRow key={bug._id} bug={bug} />
         });
@@ -51,10 +51,8 @@ var BugList = React.createClass({
         return {bugs: []};
     },
     render: function() {
-        console.log("Rendering bug list, num items:", this.state.bugs.length);
-        console.log(this.props.location.search);
+        //console.log("Rendering bug list, num items:", this.state.bugs.length);
         qs = queryString.parse(this.props.location.search);
-        console.log(qs)
         return (
             <div>
                 <h1>Bug Tracker</h1>
@@ -68,10 +66,29 @@ var BugList = React.createClass({
     },
 
     componentDidMount: function() {
-        this.loadData({});
+        console.log("BugList: componentDidMount");
+        this.loadData();
+    },
+
+    componentDidUpdate: function(prevProps){
+        var oldQuery = queryString.parse(prevProps.location.search);
+        var newQuery = queryString.parse(this.props.location.search);  
+
+        if (oldQuery.priority === newQuery.priority && 
+            oldQuery.status === newQuery.status) { 
+            console.log("BugList: componentDidUpdate, no change in filter, not updating"); 
+            return; 
+        } else {
+            console.log("BugList: componentDidUpdate, loading data with new filter"); 
+            this.loadData(); 
+
+        }
     },
 
     loadData: function(filter) {
+        var query = queryString.parse(this.props.location.search) || {}; 
+        var filter = {priority: query.priority, status: query.status}; 
+        
         $.ajax('/api/bugs', {data: filter}).done(function(data){
             this.setState({bugs: data});
         }.bind(this));
@@ -80,7 +97,6 @@ var BugList = React.createClass({
 
     changeFilter: function(newFilter) {
         this.props.history.push({search: '?' + queryString.stringify(newFilter)}); 
-        this.loadData(newFilter);
     },
 
     addBug: function(bug) {

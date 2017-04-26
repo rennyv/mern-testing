@@ -2,8 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var BugAdd = React.createClass({
-    render:function(){
-        console.log("Rendering BugAdd");
+    render: function(){
+        //console.log("Rendering BugAdd");
         return (
             <div>
                 <form name="bugAdd">
