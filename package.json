@@ -17,6 +17,7 @@
     "gulp": "^3.9.1",
     "jquery": "^3.2.1",
     "mongodb": "^2.2.26",
+    "query-string": "^4.3.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",

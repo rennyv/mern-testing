@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var queryString = require('query-string');
 var $ = require('jquery');
 
 var BugFilter = require('./BugFilter'); 
@@ -51,10 +52,13 @@ var BugList = React.createClass({
     },
     render: function() {
         console.log("Rendering bug list, num items:", this.state.bugs.length);
+        console.log(this.props.location.search);
+        qs = queryString.parse(this.props.location.search);
+        console.log(qs)
         return (
             <div>
                 <h1>Bug Tracker</h1>
-                <BugFilter submitHandler={this.loadData} />
+                <BugFilter submitHandler={this.loadData} initFilter={qs} />
                 <hr />
                 <BugTable bugs={this.state.bugs} />
                  <hr />
