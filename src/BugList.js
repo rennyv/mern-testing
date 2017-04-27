@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var queryString = require('query-string');
 var $ = require('jquery');
+var Link = require('react-router-dom').Link; 
 
 var BugFilter = require('./BugFilter'); 
 var BugAdd = require('./BugAdd'); 
@@ -11,7 +12,9 @@ var BugRow = React.createClass({
         //console.log("Rendering BugRow:", this.props.bug);
         return (
             <tr>
-                <td>{this.props.bug._id}</td>
+                <td>
+                    <Link to={'/bugs/' + this.props.bug._id}>{this.props.bug._id}</Link>
+                </td>
                 <td>{this.props.bug.status}</td>
                 <td>{this.props.bug.priority}</td>
                 <td>{this.props.bug.owner}</td>
