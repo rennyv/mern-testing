@@ -7,6 +7,7 @@ var Route = require('react-router-dom').Route;
 var Redirect = require('react-router-dom').Redirect; 
 
 var BugList = require('./BugList'); 
+var BugEdit = require('./BugEdit');
 
 var NoMatch = React.createClass({ 
   render: function() { 
@@ -19,6 +20,7 @@ var NoMatch = React.createClass({
 ReactDOM.render(
     <Router>
       <Switch>
+          <Route path="/bugs/:id" component={BugEdit} />
           <Redirect exact from="/" to="/bugs" />
           <Route path="/bugs" component={BugList} />
           <Route path='*' component={NoMatch} />
