@@ -1,11 +1,11 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var $ = require('jquery');
-var Link = require('react-router-dom').Link
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
+import { Link } from 'react-router-dom';
 
-var BugEdit = React.createClass({
-    render: function(){
-        console.log("params: ", this.props.match.params)
+export default class BugEdit extends React.Component {
+    render()  {
+        console.log("params: ", this.props.match.params);
         return (
             <div>
                 Edit bug: {this.props.match.params.id}
@@ -33,46 +33,52 @@ var BugEdit = React.createClass({
                 </form>
             </div>
         );
-    },
+    }
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
+    this.onChangePriority = this.onChangePriority.bind(this);
+    this.onChangeStatus = this.onChangeStatus.bind(this);
+    this.onChangeOwner = this.onChangeOwner.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
 
-    getInitialState: function() {
-        return {};
-    },
+    this.state = { successVisible: false, bug: {} };
+  }
 
-    componentDidMount: function() {
+    componentDidMount() {
         this.loadData();
-    },
+    }
 
-    componentDidUpdate: function(prevProps) {
+    componentDidUpdate(prevProps) {
         console.log("BugEdit: componentDidUpdate", prevProps.match.params.id, this.props.match.params.id);
         if (this.props.match.params.id != prevProps.match.params.id) {
             this.loadData();
         }
-    },
+    }
 
-    loadData: function() { 
+    loadData() { 
         $.ajax('/api/bugs/' + this.props.match.params.id) .done(function(bug) { 
             this.setState(bug); 
         }.bind(this)); 
-    },
+    }
 
-    onChangePriority: function(e) { 
+    onChangePriority(e) { 
         this.setState({priority: e.target.value}); 
-    },
+    }
 
-    onChangeStatus: function(e) { 
+    onChangeStatus(e) { 
         this.setState({status: e.target.value}); 
-    },
+    }
 
-    onChangeOwner: function(e) { 
+    onChangeOwner(e) { 
         this.setState({owner: e.target.value}); 
-    }, 
+    } 
 
-    onChangeTitle: function(e) { 
+    onChangeTitle(e) { 
         this.setState({title: e.target.value}); 
-    },
+    }
 
-    submit: function(e) { 
+    submit(e) { 
         e.preventDefault(); 
         var bug = { 
             status: this.state.status, 
@@ -90,6 +96,4 @@ var BugEdit = React.createClass({
             }.bind(this), 
         });
     }
-});
-
-module.exports = BugEdit;
+}

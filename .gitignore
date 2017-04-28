@@ -2,3 +2,4 @@ node_modules
 static/App.js
 static/bundle.js
 .vscode/
+static/bundle.js.map

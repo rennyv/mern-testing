@@ -1,14 +1,20 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var queryString = require('query-string');
-var $ = require('jquery');
-var Link = require('react-router-dom').Link; 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import queryString from 'query-string';
+import $  from 'jquery';
+import { Link }  from 'react-router-dom'; 
 
-var BugFilter = require('./BugFilter'); 
-var BugAdd = require('./BugAdd'); 
+import BugFilter  from './BugFilter.jsx'; 
+import BugAdd from './BugAdd.jsx'; 
 
-var BugRow = React.createClass({
-    render: function() {
+/*
+ * BugRow and BugTable are stateless, so they can be defined as pure functions
+ * that only render. Both the following do the same, but with slightly different
+ * styles.
+
+ */
+class BugRow extends React.Component {
+    render() {
         //console.log("Rendering BugRow:", this.props.bug);
         return (
             <tr>
@@ -22,10 +28,10 @@ var BugRow = React.createClass({
             </tr>
         )
     }
-});
+};
 
-var BugTable = React.createClass({
-    render: function(){
+class BugTable extends React.Component {
+    render() {
         //console.log("Rendering bug table, num items:", this.props.bugs.length);
         var bugRows = this.props.bugs.map(function(bug) {
             return <BugRow key={bug._id} bug={bug} />
@@ -47,33 +53,39 @@ var BugTable = React.createClass({
             </table>
         )
     }
-});
+};
 
-var BugList = React.createClass({
-    getInitialState: function() {
+export default class BugList extends React.Component {
+    constructor() {
+        super();
+    /*
+     * Using ES6 way of intializing state
+     */
+
+    this.state = { bugs: [] };
+
+    /*
+     * React on ES6 has no auto-binding. We have to bind each class method. Doing it in
+     * the constructor is the recommended way, since it is bound only once per instance.
+     * No need to bind loadData() since that's never called from an event, only from other
+     * methods which are already bound.
+     */
+
+    this.addBug = this.addBug.bind(this);
+    this.changeFilter = this.changeFilter.bind(this);
+
+  }
+    
+    static get getInitialState() {
         return {bugs: []};
-    },
-    render: function() {
-        //console.log("Rendering bug list, num items:", this.state.bugs.length);
-        qs = queryString.parse(this.props.location.search);
-        return (
-            <div>
-                <h1>Bug Tracker</h1>
-                <BugFilter submitHandler={this.changeFilter} initFilter={qs} />
-                <hr />
-                <BugTable bugs={this.state.bugs} />
-                 <hr />
-                <BugAdd addBug={this.addBug} />
-            </div>
-        )
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         console.log("BugList: componentDidMount");
         this.loadData();
-    },
+    }
 
-    componentDidUpdate: function(prevProps){
+    componentDidUpdate(prevProps) {
         var oldQuery = queryString.parse(prevProps.location.search);
         var newQuery = queryString.parse(this.props.location.search);  
 
@@ -86,9 +98,9 @@ var BugList = React.createClass({
             this.loadData(); 
 
         }
-    },
+    }
 
-    loadData: function(filter) {
+    loadData(filter) {
         var query = queryString.parse(this.props.location.search) || {}; 
         var filter = {priority: query.priority, status: query.status}; 
         
@@ -96,13 +108,13 @@ var BugList = React.createClass({
             this.setState({bugs: data});
         }.bind(this));
         // In production, we'd also handle errors.
-    },
+    }
 
-    changeFilter: function(newFilter) {
+    changeFilter(newFilter) {
         this.props.history.push({search: '?' + queryString.stringify(newFilter)}); 
-    },
+    }
 
-    addBug: function(bug) {
+    addBug(bug) {
         console.log("Adding bug:", bug);
         $.ajax({
             type: 'POST', url: '/api/bugs', contentType: 'application/json',
@@ -119,6 +131,19 @@ var BugList = React.createClass({
             }
         });
     }
-});
 
-module.exports = BugList; 
+  render() {
+        // console.log("Rendering bug list, num items:", this.state.bugs.length);
+        return (
+          <div>
+              <h1>Bug Tracker</h1>
+              <BugFilter submitHandler={this.changeFilter} 
+                initFilter={queryString.parse(this.props.location.search)} />
+              <hr />
+              <BugTable bugs={this.state.bugs} />
+              <hr />
+              <BugAdd addBug={this.addBug} />
+            </div>
+        );
+    }
+}

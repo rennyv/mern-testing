@@ -1,8 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var BugAdd = React.createClass({
-    render: function(){
+export default class BugAdd extends React.Component {
+    render() {
         //console.log("Rendering BugAdd");
         return (
             <div>
@@ -13,15 +13,13 @@ var BugAdd = React.createClass({
                 </form>
             </div>
         )
-    },
+    }
 
-    handleSubmit: function(e) {
+    handleSubmit(e) {
         e.preventDefault();
         var form = document.forms.bugAdd;
         this.props.addBug({owner: form.owner.value, title: form.title.value, status: 'New', priority: 'P1'});
         //clear the form for the next input
         form.owner.value = ""; form.title.value="";
     }
-});
-
-module.exports = BugAdd;
+};
