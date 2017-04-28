@@ -4,36 +4,7 @@ import $ from 'jquery';
 import { Link } from 'react-router-dom';
 
 export default class BugEdit extends React.Component {
-    render()  {
-        console.log("params: ", this.props.match.params);
-        return (
-            <div>
-                Edit bug: {this.props.match.params.id}
-                <br />
-                <form onSubmit={this.submit}>
-                    <select name="priority" value={this.state.priority} onChange={this.onChangePriority}> 
-                        <option value="P1">P1</option> 
-                        <option value="P2">P2</option> 
-                        <option value="P3">P3</option> 
-                    </select> 
-                    <br/> 
-                    Status: 
-                    <select value={this.state.status} onChange={this.onChangeStatus}> 
-                        <option>New</option> 
-                        <option>Open</option> 
-                        <option>Fixed</option> 
-                        <option>Closed</option> 
-                    </select> 
-                    <br/> 
-                    Owner: <input type="text" value={this.state.owner} onChange={this.onChangeOwner}/> 
-                    <br/> 
-                    Title: <input type="text" value={this.state.title} onChange={this.onChangeTitle}/> 
-                    <br/> 
-                    <button type="submit">Submit</button><Link to="/bugs">Back to bugs</Link>
-                </form>
-            </div>
-        );
-    }
+  
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
@@ -95,5 +66,36 @@ export default class BugEdit extends React.Component {
                 this.setState(bug); 
             }.bind(this), 
         });
+    }
+
+  render() {
+    console.log('params: ', this.props.match.params);
+    return (
+      <div>
+        Edit bug: {this.props.match.params.id}
+                <br />
+                <form onSubmit={this.submit}>
+                    <select name="priority" value={this.state.priority} onChange={this.onChangePriority}> 
+                        <option value="P1">P1</option> 
+                        <option value="P2">P2</option> 
+                        <option value="P3">P3</option> 
+                    </select> 
+                    <br/> 
+                    Status: 
+                    <select value={this.state.status} onChange={this.onChangeStatus}> 
+                        <option>New</option> 
+                        <option>Open</option> 
+                        <option>Fixed</option> 
+                        <option>Closed</option> 
+                    </select> 
+                    <br/> 
+                    Owner: <input type="text" value={this.state.owner} onChange={this.onChangeOwner}/> 
+                    <br/> 
+                    Title: <input type="text" value={this.state.title} onChange={this.onChangeTitle}/> 
+                    <br/> 
+                    <button type="submit">Submit</button><Link to="/bugs">Back to bugs</Link>
+                </form>
+            </div>
+        );
     }
 }

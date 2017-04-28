@@ -103,7 +103,7 @@ export default class BugList extends React.Component {
     loadData(filter) {
         var query = queryString.parse(this.props.location.search) || {}; 
         var filter = {priority: query.priority, status: query.status}; 
-        
+
         $.ajax('/api/bugs', {data: filter}).done(function(data){
             this.setState({bugs: data});
         }.bind(this));
@@ -115,20 +115,22 @@ export default class BugList extends React.Component {
     }
 
     addBug(bug) {
-        console.log("Adding bug:", bug);
+        console.log('Adding bug:', bug);
         $.ajax({
-            type: 'POST', url: '/api/bugs', contentType: 'application/json',
+            type: 'POST',
+            url: '/api/bugs',
+            contentType: 'application/json',
             data: JSON.stringify(bug),
-            success: function(data) {
-                var bug = data;
+            success: function success(data) {
+                const bbug = data;
                 // We're advised not to modify the state, it's immutable. So, make a copy.
-                var bugsModified = this.state.bugs.concat(bug);
-                this.setState({bugs: bugsModified});
+                const bugsModified = this.state.bugs.concat(bbug);
+                this.setState({ bugs: bugsModified });
             }.bind(this),
-            error: function(xhr, status, err) {
+            error: (xhr, status, err) => {
                 // ideally, show error to user.
-                console.log("Error adding bug:", err);
-            }
+                console.log('Error adding bug:', err);
+            },
         });
     }
 
