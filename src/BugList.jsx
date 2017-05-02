@@ -101,11 +101,11 @@ export default class BugList extends React.Component {
     }
 
     loadData(filter) {
-        var query = queryString.parse(this.props.location.search) || {}; 
-        var filter = {priority: query.priority, status: query.status}; 
+        const query = queryString.parse(this.props.location.search) || {};
+        const filter = {priority: query.priority, status: query.status};
 
-        $.ajax('/api/bugs', {data: filter}).done(function(data){
-            this.setState({bugs: data});
+        $.ajax('/api/bugs', { data: filter }).done(function (data) {
+            this.setState({ bugs: data });
         }.bind(this));
         // In production, we'd also handle errors.
     }
