@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 
 const app = express();
-const db;
+var db;
 
 app.use(express.static('static'));
 
