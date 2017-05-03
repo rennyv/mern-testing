@@ -14,5 +14,5 @@ ReactDOM.render(
       <Route path="/bugs" component={BugList} />
       <Route path="*" component={NoMatch} />
     </Switch>
-  </Router>, this.document.querySelector('.main'),
+  </Router>, document.getElementById('main'),
 );

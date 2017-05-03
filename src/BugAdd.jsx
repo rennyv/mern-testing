@@ -9,4 +9,17 @@ export default class BugAdd extends React.Component {
         form.owner.value = '';
         form.title.value = '';
     }
+
+    render() {
+    // console.log("Rendering BugAdd");
+        return (
+          <div>
+            <form name="bugAdd">
+              <input type="text" name="owner" placeholder="Owner" />
+              <input type="text" name="title" placeholder="Title" />
+              <button onClick={this.handleSubmit}>Add Bug</button>
+            </form>
+          </div>
+        );
+    }
 }

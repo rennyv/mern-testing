@@ -59,7 +59,7 @@ app.put('/api/bugs/:id', function(req,res){
 
 app.get('*', function(req, res){
     res.sendFile(__dirname + '/static/index.html');
-})
+});
 
 MongoClient.connect('mongodb://localhost/bugsdb', function(err, dbConnection){
     db = dbConnection;
