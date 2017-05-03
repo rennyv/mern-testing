@@ -1,22 +1,24 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectID
+const express = require('express');
+const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectID;
 
-var app = express();
-var db;
+const app = express();
+const db;
 
 app.use(express.static('static'));
 
-+/* Get a list of filtered records */
-app.get('/api/bugs', function(req, res){
-    console.log("Query string: ", req.query);
-    var filter={};
-    if (req.query.priority)
+/* Get a list of filtered records */
+app.get('/api/bugs', function (req, res) {
+    console.log('Query string: ', req.query);
+    let filter = {};
+    if (req.query.priority) {
         filter.priority = req.query.priority;
-    if (req.query.status)
-        filter.status = req.query.status;  
-    
+    }
+    if (req.query.status) {
+        filter.status = req.query.status;
+    }
+
     db.collection("bugs").find(filter).toArray(function(err, docs) {
         res.json(docs);
     });
@@ -24,7 +26,7 @@ app.get('/api/bugs', function(req, res){
 
 app.use(bodyParser.json());
 
-+/* Insert a record */ 
+/* Insert a record */ 
 app.post('/api/bugs/', function(req, res){
     console.log("Req body:", req.body);
     var newBug = req.body;

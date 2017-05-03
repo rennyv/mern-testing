@@ -100,7 +100,7 @@ export default class BugList extends React.Component {
         }
     }
 
-    loadData(filter) {
+    loadData(filters) {
         const query = queryString.parse(this.props.location.search) || {};
         const filter = {priority: query.priority, status: query.status};
 

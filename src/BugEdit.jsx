@@ -68,7 +68,7 @@ export default class BugEdit extends React.Component {
         });
     }
 
-  render() {
+    render() {
     console.log('params: ', this.props.match.params);
     return (
       <div>
