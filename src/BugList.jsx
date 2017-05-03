@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import queryString from 'query-string';
-import $  from 'jquery';
-import { Link }  from 'react-router-dom'; 
+import $ from 'jquery';
+import { Link } from 'react-router-dom';
 
-import BugFilter  from './BugFilter.jsx'; 
-import BugAdd from './BugAdd.jsx'; 
+import BugFilter from './BugFilter.jsx';
+import BugAdd from './BugAdd.jsx';
 
 /*
  * BugRow and BugTable are stateless, so they can be defined as pure functions
@@ -15,55 +14,58 @@ import BugAdd from './BugAdd.jsx';
  */
 class BugRow extends React.Component {
     render() {
-        //console.log("Rendering BugRow:", this.props.bug);
+        // console.log("Rendering BugRow:", this.props.bug);
         return (
-            <tr>
-                <td>
-                    <Link to={'/bugs/' + this.props.bug._id}>{this.props.bug._id}</Link>
-                </td>
-                <td>{this.props.bug.status}</td>
-                <td>{this.props.bug.priority}</td>
-                <td>{this.props.bug.owner}</td>
-                <td>{this.props.bug.title}</td>
-            </tr>
-        )
+          <tr>
+            <td>
+              <Link to={'/bugs/' + this.props.bug._id}>{this.props.bug._id}</Link>
+            </td>
+            <td>{this.props.bug.status}</td>
+            <td>{this.props.bug.priority}</td>
+            <td>{this.props.bug.owner}</td>
+            <td>{this.props.bug.title}</td>
+          </tr>
+        );
     }
-};
+}
 
 class BugTable extends React.Component {
     render() {
-        //console.log("Rendering bug table, num items:", this.props.bugs.length);
-        var bugRows = this.props.bugs.map(function(bug) {
-            return <BugRow key={bug._id} bug={bug} />
+        // console.log("Rendering bug table, num items:", this.props.bugs.length);
+        const bugRows = this.props.bugs.map(function(bug) {
+            return <BugRow key={ bug._id } bug={bug} />;
         });
-        return(
-           <table>
-               <thead>
-                   <tr>
-                       <th>Id</th>
-                       <th>Status</th>
-                       <th>Priority</th>
-                       <th>Owner</th>
-                       <th>Title</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bugRows}
-                </tbody>
-            </table>
-        )
+        return (
+          <table>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Owner</th>
+                <th>Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bugRows}
+            </tbody>
+          </table>
+        );
     }
-};
+}
 
 export default class BugList extends React.Component {
+    static get getInitialState() {
+        return { bugs: [] };
+    }
+
     constructor() {
         super();
     /*
      * Using ES6 way of intializing state
      */
 
-    this.state = { bugs: [] };
-
+        this.state = { bugs: [] };
     /*
      * React on ES6 has no auto-binding. We have to bind each class method. Doing it in
      * the constructor is the recommended way, since it is bound only once per instance.
@@ -71,38 +73,31 @@ export default class BugList extends React.Component {
      * methods which are already bound.
      */
 
-    this.addBug = this.addBug.bind(this);
-    this.changeFilter = this.changeFilter.bind(this);
-
-  }
-    
-    static get getInitialState() {
-        return {bugs: []};
+        this.addBug = this.addBug.bind(this);
+        this.changeFilter = this.changeFilter.bind(this);
     }
 
     componentDidMount() {
-        console.log("BugList: componentDidMount");
+        console.log('BugList: componentDidMount');
         this.loadData();
     }
 
     componentDidUpdate(prevProps) {
-        var oldQuery = queryString.parse(prevProps.location.search);
-        var newQuery = queryString.parse(this.props.location.search);  
+        const oldQuery = queryString.parse(prevProps.location.search);
+        const newQuery = queryString.parse(this.props.location.search);
 
-        if (oldQuery.priority === newQuery.priority && 
-            oldQuery.status === newQuery.status) { 
-            console.log("BugList: componentDidUpdate, no change in filter, not updating"); 
-            return; 
+        if (oldQuery.priority === newQuery.priority &&
+            oldQuery.status === newQuery.status) {
+            console.log('BugList: componentDidUpdate, no change in filter, not updating');
         } else {
-            console.log("BugList: componentDidUpdate, loading data with new filter"); 
-            this.loadData(); 
-
+            console.log('BugList: componentDidUpdate, loading data with new filter');
+            this.loadData();
         }
     }
 
-    loadData(filters) {
+    loadData() {
         const query = queryString.parse(this.props.location.search) || {};
-        const filter = {priority: query.priority, status: query.status};
+        const filter = { priority: query.priority, status: query.status };
 
         $.ajax('/api/bugs', { data: filter }).done(function (data) {
             this.setState({ bugs: data });
@@ -134,18 +129,20 @@ export default class BugList extends React.Component {
         });
     }
 
-  render() {
+    render() {
         // console.log("Rendering bug list, num items:", this.state.bugs.length);
         return (
           <div>
-              <h1>Bug Tracker</h1>
-              <BugFilter submitHandler={this.changeFilter} 
-                initFilter={queryString.parse(this.props.location.search)} />
-              <hr />
-              <BugTable bugs={this.state.bugs} />
-              <hr />
-              <BugAdd addBug={this.addBug} />
-            </div>
+            <h1>Bug Tracker</h1>
+            <BugFilter 
+              submitHandler={this.changeFilter}
+              initFilter={queryString.parse(this.props.location.search)}
+            />
+            <hr />
+            <BugTable bugs={this.state.bugs} />
+            <hr />
+            <BugAdd addBug={this.addBug} />
+          </div>
         );
     }
 }
