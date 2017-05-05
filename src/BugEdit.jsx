@@ -43,7 +43,7 @@ export default class BugEdit extends React.Component {
     }
 
     loadData() {
-        $.ajax('/api/bugs/{this.props.match.params.id}').done(function (bug) {
+        $.ajax('/api/bugs/' + this.props.match.params.id).done(function (bug) {
             this.setState(bug);
         }.bind(this));
     }
@@ -57,7 +57,7 @@ export default class BugEdit extends React.Component {
         };
 
         $.ajax({
-            url: '/api/bugs/{this.props.match.params.id}',
+            url: '/api/bugs/' + this.props.match.params.id,
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(bug),

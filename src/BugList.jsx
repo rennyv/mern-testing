@@ -19,7 +19,7 @@ class BugRow extends React.Component {
         return (
           <tr>
             <td>
-              <Link to={'/bugs/{this.props.bug._id}'}>{this.props.bug._id}</Link>
+              <Link to={'/bugs/' + this.props.bug._id}>{this.props.bug._id}</Link>
             </td>
             <td>{this.props.bug.status}</td>
             <td>{this.props.bug.priority}</td>

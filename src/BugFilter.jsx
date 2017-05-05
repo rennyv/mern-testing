@@ -17,15 +17,15 @@ export default class BugFilter extends React.Component {
                 <br />
                 Priority:
                 <select value={this.state.priority} onChange={this.onChangePriority}>
-                    <option value="">(Any)</option> 
-                    <option value="P1">P1</option> 
-                    <option value="P2">P2</option> 
-                    <option value="P3">P3</option> 
-                </select> 
+                    <option value="">(Any)</option>
+                    <option value="P1">P1</option>
+                    <option value="P2">P2</option>
+                    <option value="P3">P3</option>
+                </select>
                 <br/>
                 <button onClick={this.submit}>Apply</button>
             </div>
-        )
+        );
     }
 
     constructor(props) {
