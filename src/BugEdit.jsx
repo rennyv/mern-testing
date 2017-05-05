@@ -21,12 +21,12 @@ export default class BugEdit extends React.Component {
 
     componentDidUpdate(prevProps) {
         console.log('BugEdit: componentDidUpdate', prevProps.match.params.id, this.props.match.params.id);
-        if (this.props.match.params.id != prevProps.match.params.id) {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
             this.loadData();
         }
     }
 
-    onChangePriority(e) { 
+    onChangePriority(e) {
         this.setState({ priority: e.target.value });
     }
 
@@ -43,7 +43,7 @@ export default class BugEdit extends React.Component {
     }
 
     loadData() {
-        $.ajax('/api/bugs/' + this.props.match.params.id) .done(function(bug) { 
+        $.ajax('/api/bugs/{this.props.match.params.id}').done(function (bug) {
             this.setState(bug);
         }.bind(this));
     }
@@ -54,14 +54,16 @@ export default class BugEdit extends React.Component {
             priority: this.state.priority,
             owner: this.state.owner,
             title: this.state.title,
-        }
+        };
 
         $.ajax({
-            url: '/api/bugs/' + this.props.match.params.id, type: 'PUT', contentType:'application/json', 
+            url: '/api/bugs/{this.props.match.params.id}',
+            type: 'PUT',
+            contentType: 'application/json',
             data: JSON.stringify(bug),
             dataType: 'json',
-            success: function(bug) {
-                this.setState(bug);
+            success: function (newBug) {
+                this.setState(newBug);
             }.bind(this),
         });
     }
@@ -73,23 +75,23 @@ export default class BugEdit extends React.Component {
             Edit bug: {this.props.match.params.id}
             <br />
             <form onSubmit={this.submit}>
-              <select name="priority" value={this.state.priority} onChange={this.onChangePriority}> 
+              <select name="priority" value={this.state.priority} onChange={this.onChangePriority}>
                 <option value="P1">P1</option>
                 <option value="P2">P2</option>
                 <option value="P3">P3</option>
               </select>
               <br />
               Status:
-              <select value={this.state.status} onChange={this.onChangeStatus}> 
+              <select value={this.state.status} onChange={this.onChangeStatus}>
                 <option>New</option>
                 <option>Open</option>
                 <option>Fixed</option>
                 <option>Closed</option>
               </select>
               <br />
-              Owner: <input type="text" value={this.state.owner} onChange={this.onChangeOwner}/> 
+              Owner: <input type="text" value={this.state.owner} onChange={this.onChangeOwner} />
               <br />
-              Title: <input type="text" value={this.state.title} onChange={this.onChangeTitle}/> 
+              Title: <input type="text" value={this.state.title} onChange={this.onChangeTitle} />
               <br />
               <button type="submit">Submit</button><Link to="/bugs">Back to bugs</Link>
             </form>

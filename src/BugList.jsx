@@ -12,13 +12,14 @@ import BugAdd from './BugAdd.jsx';
  * styles.
 
  */
+
 class BugRow extends React.Component {
     render() {
         // console.log("Rendering BugRow:", this.props.bug);
         return (
           <tr>
             <td>
-              <Link to={'/bugs/' + this.props.bug._id}>{this.props.bug._id}</Link>
+              <Link to={'/bugs/{this.props.bug._id}'}>{this.props.bug._id}</Link>
             </td>
             <td>{this.props.bug.status}</td>
             <td>{this.props.bug.priority}</td>
@@ -32,8 +33,8 @@ class BugRow extends React.Component {
 class BugTable extends React.Component {
     render() {
         // console.log("Rendering bug table, num items:", this.props.bugs.length);
-        const bugRows = this.props.bugs.map(function(bug) {
-            return <BugRow key={ bug._id } bug={bug} />;
+        const bugRows = this.props.bugs.map(function (bug) {
+            return <BugRow key={bug._id} bug={bug} />;
         });
         return (
           <table>
@@ -106,7 +107,7 @@ export default class BugList extends React.Component {
     }
 
     changeFilter(newFilter) {
-        this.props.history.push({search: '?' + queryString.stringify(newFilter)}); 
+        this.props.history.push({ search: '?' + queryString.stringify(newFilter) });
     }
 
     addBug(bug) {
@@ -134,7 +135,7 @@ export default class BugList extends React.Component {
         return (
           <div>
             <h1>Bug Tracker</h1>
-            <BugFilter 
+            <BugFilter
               submitHandler={this.changeFilter}
               initFilter={queryString.parse(this.props.location.search)}
             />
