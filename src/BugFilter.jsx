@@ -1,8 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React  from 'react';
+import ReactDOM from 'react-dom';
 
-var BugFilter = React.createClass({
-    render: function() {
+export default class BugFilter extends React.Component {
+    render() {
         console.log("Rendering BugFilter, state=", this.state);
         return (
             <div>
@@ -17,23 +17,30 @@ var BugFilter = React.createClass({
                 <br />
                 Priority:
                 <select value={this.state.priority} onChange={this.onChangePriority}>
-                    <option value="">(Any)</option> 
-                    <option value="P1">P1</option> 
-                    <option value="P2">P2</option> 
-                    <option value="P3">P3</option> 
-                </select> 
+                    <option value="">(Any)</option>
+                    <option value="P1">P1</option>
+                    <option value="P2">P2</option>
+                    <option value="P3">P3</option>
+                </select>
                 <br/>
                 <button onClick={this.submit}>Apply</button>
             </div>
-        )
-    },
+        );
+    }
 
-    getInitialState: function() {
-        var initFilter = this.props.initFilter;
-        return {status: initFilter.status, priority: initFilter.priority};
-    },
+    constructor(props) {
+        super(props);
+        this.state = {
+            status: this.props.initFilter.status,
+            priority: this.props.initFilter.priority,
+        };
 
-    componentWillReceiveProps: function(newProps) {
+        this.submit = this.submit.bind(this);
+        this.onChangeStatus = this.onChangeStatus.bind(this);
+        this.onChangePriority = this.onChangePriority.bind(this);
+    }
+
+    componentWillReceiveProps(newProps) {
         if(newProps.initFilter.status == this.state.status
             && newProps.initFilter.priority === this.state.priority) { 
             console.log("BugFilter: componentWillReceiveProps, no change"); 
@@ -41,22 +48,20 @@ var BugFilter = React.createClass({
         }
         console.log("BugFilter: componentWillReceiveProps, new filter:", newProps.initFilter); 
         this.setState({status: newProps.initFilter.status, priority: newProps.initFilter.priority}); 
-    },
+    }
 
-    onChangeStatus: function(e) {
+    onChangeStatus(e) {
         this.setState({status: e.target.value});
-    },
+    }
 
-    onChangePriority: function(e) {
+    onChangePriority(e) {
         this.setState({priority: e.target.value});
-    },
+    }
 
-    submit: function(e) {
+    submit(e) {
         var newFilter = {};
         if (this.state.priority) newFilter.priority = this.state.priority;
         if (this.state.status) newFilter.status = this.state.status;
         this.props.submitHandler(newFilter);
     }
-});
-
-module.exports = BugFilter; 
+};
