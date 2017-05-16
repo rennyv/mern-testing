@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register --require ./test/helpers.js --require ./test/dom.js --recursive",
     "tdd": "npm test -- --watch",
-    "webpack": "webpack",
-    "webpack-watch": "webpack --watch",
+    "webpack": "node_modules/.bin/webpack",
+    "webpack-watch": "node_modules/.bin/webpack --watch",
     "lint": "eslint 'src/*.jsx'"
   },
   "author": "",
