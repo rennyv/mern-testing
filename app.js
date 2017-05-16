@@ -70,7 +70,7 @@ app.get('*', function(req, res){
 
 MongoClient.connect('mongodb://localhost/bugsdb', function(err, dbConnection){
     db = dbConnection;
-    var server = app.listen(3000, function() {
+    var server = app.listen(80, function() {
         var port = server.address().port;
         console.log("Started server at port", port);
     });
