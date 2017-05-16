@@ -68,10 +68,15 @@ app.get('*', function(req, res){
     res.sendFile(__dirname + '/static/index.html');
 });
 
-MongoClient.connect('mongodb://localhost/bugsdb', function(err, dbConnection){
-    db = dbConnection;
-    var server = app.listen(80, function() {
-        var port = server.address().port;
-        console.log("Started server at port", port);
-    });
+// MongoClient.connect('mongodb://localhost/bugsdb', function(err, dbConnection){
+//     db = dbConnection;
+//     var server = app.listen(80, function() {
+//         var port = server.address().port;
+//         console.log("Started server at port", port);
+//     });
+// });
+
+var server = app.listen(80, function() {
+      var port = server.address().port;
+     console.log("Started server at port", port);
 });
