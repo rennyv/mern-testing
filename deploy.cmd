@@ -2,7 +2,7 @@
 
 :: ----------------------
 :: KUDU Deployment Script
-:: Version: 1.0.15
+:: Version: 1.0.3
 :: ----------------------
 
 :: Prerequisites
@@ -105,7 +105,20 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
+:: 4. webpack
+IF EXIST "%DEPLOYMENT_TARGET%\webpack.config.js" (
+  pushd "%DEPLOYMENT_TARGET%"
+  call :ExecuteCmd !NPM_CMD! run webpack
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: Post deployment stub
+IF DEFINED POST_DEPLOYMENT_ACTION call "%POST_DEPLOYMENT_ACTION%"
+IF !ERRORLEVEL! NEQ 0 goto error
+
 goto end
 
 :: Execute command routine that will echo out when error
