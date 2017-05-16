@@ -8,6 +8,13 @@ var db;
 
 app.use(express.static('static'));
 
+
+/* Get a hello world */
+app.get('/api/hello', function (req, res) {
+    res.json({"Hello": "World!"});
+});
+
+
 /* Get a list of filtered records */
 app.get('/api/bugs', function (req, res) {
     console.log('Query string: ', req.query);
