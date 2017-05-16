@@ -2,7 +2,7 @@
   "name": "mern_tutorial",
   "version": "1.0.0",
   "description": "MERN Tutorial",
-  "main": "webapp.js",
+  "main": "app.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register --require ./test/helpers.js --require ./test/dom.js --recursive",
     "tdd": "npm test -- --watch",
